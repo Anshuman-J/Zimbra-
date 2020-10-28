@@ -239,7 +239,7 @@ NOTE :-
 
 
 
-### Setup SQL Server cluster
+### Setup Zimbra Server cluster
 #### On Primary Server
 1. Add one exec resource to the failover group
 	- failover group
