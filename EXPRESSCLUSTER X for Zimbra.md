@@ -245,7 +245,7 @@ NOTE :-
 	- failover group
 		- exec
 			- start.sh: Refer a [sample script](https://github.com/Anshuman-J/Zimbra-/blob/main/EXPRESSCLUSTER%20X%20for%20Zimbra.md#sample-scripts)
-			- stop.sh:  Refer a [sample script]
+			- stop.sh:  Refer a [sample script](https://github.com/Anshuman-J/Zimbra-/blob/main/EXPRESSCLUSTER%20X%20for%20Zimbra.md#sample-scripts)
 1. Apply the configuration
 1. Start the exec resource
 
