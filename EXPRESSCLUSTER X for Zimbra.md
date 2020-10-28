@@ -250,6 +250,35 @@ NOTE :-
 1. Start the exec resource
 
 
+## Sample scripts
+### start.sh
+```bat
+#! /bin/sh
+#***************************************
+#*              start.sh               *
+#***************************************
+
+#ulimit -s unlimited
+
+systemctl start zimbra
+
+exit $?
+```
+### stop.sh
+```bat
+#! /bin/sh
+#***************************************
+#*              start.sh               *
+#***************************************
+
+#ulimit -s unlimited
+
+systemctl stop zimbra
+
+exit $?
+```
+
+
 
 
 
