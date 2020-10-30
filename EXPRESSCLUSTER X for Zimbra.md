@@ -111,7 +111,10 @@ Zimbra Installation Procedure
    - When the check box is not selected: 
      An initial mirror configuration will not be constructed.
 
-
+<p align="center">
+<img src="mirror_tuning.jpg")
+</p>
+	
 - Execute initial mkfs
 
   - Specify if an initial mkfs is constructed when constructing a cluster. This option can be set only if the initial mirror is being         constructed. 
