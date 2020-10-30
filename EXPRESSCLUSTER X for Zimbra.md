@@ -1,4 +1,4 @@
-EXPRESSCLUSTER X for Zimbra clustering on Linux
+Zimbra with EXPRESSCLUSTER X on Linux
 ===
 
 About this guide
@@ -9,12 +9,12 @@ For the detailed information of EXPRESSCLUSTER X, please refer to [this site](ht
 
 Configurations description
 ---
-In this document, create 2 nodes (Node1 Node2 as below) mirror disk type cluster.
-Prepare Zimbra high availability By using EXPRESSCLUSTER X. 
+In this document, create 2 nodes (Node1 and Node2 as below) mirror disk type cluster.
+Prepare Zimbra HA/DR By using EXPRESSCLUSTER X. 
+
 
 ### Software versions
-- Release 8.8.12_GA_3794.RHEL7_64_20190329045002 RHEL7_64 FOSS edition, Patch 8.8.12_P1 proxy.
-
+- Zimbra    (Release 8.8.12_GA_3794.RHEL7_64_20190329045002 RHEL7_64 FOSS edition, Patch 8.8.12_P1 proxy)
 - CLUSTERPRO X 4.2 for Linux (internal version：4.2.0-200131-11)
 - CLPX_BASE40_Linux_lcs1      (ECX license)
 - CLPX_REPL40_Linux_lcs1      (ECX license)
@@ -28,9 +28,9 @@ Prepare Zimbra high availability By using EXPRESSCLUSTER X.
   - floting IP resource
   - mirror disk connect monitor resource
   - mirror disk monitor resource
-  - zimbra service monitor resource
+  - exec monitor resource
 
-### Zimbra 
+### Zimbra Prerequisites and Installation Procedure
 ---
 System Requirements for Zimbra 
 - Please refer and check to [this site](https://files.zimbra.com/website/docs/8.5/ZCS_System_Requirements_8.5.0.pdf) 
@@ -41,7 +41,7 @@ Please note that the following points are different if you will set Zimbra to EX
 - Firewall should be in closed state. 
 
 
-procedure
+Zimbra Installation Procedure
 ---
 
 1. Install Zimbra (New Installation) on the both servers.
@@ -50,8 +50,9 @@ procedure
 
      NOTE - 
      - If you are doing Zimbra fresh Installation make sure you should be install Zimbra on mirror disk partition.
-     - After Zimbra Installation you need to take backup of zimbra files.
-
+     
+     - After Zimbra Installation you need to take backup of zimbra files as below steps.
+                	 
      - Firstly stop the zimbra service on server. 
 
             systemctl stop zimbra
@@ -72,29 +73,28 @@ procedure
 2. EXPRESSCLUSTER setup  
     - Let us consider the following 2 node cluster and try to understand it.
 
-    ### cluster information
+    ### Cluster Information
     ||Node1(Active)|Node2(Stanby)|
     |---|---|---|
-    |Server name|Server1|Server2|
+    |Server Name|Server1|Server2|
     |IPaddress|10.0.7.166|10.0.7.167|  
     |cluster partition|/dev/sdb1|/dev/sdb1|
     |data partition|/dev/sdc2|/dev/sdc2|
     
-    ### failover group information  
-    |parameter|value|
+    ### Failover Group Information  
+    |Parameter|Value|
     |---|---|
-    |name|failover1|
+    |Name|Failover1|
     |Startup Server| Server1 -> Server2 |
-    |floating ip address|10.0.7.170|
-    |mirror disk resource (mount point))|/opt/zimbra|
+    |Floating ip address|10.0.7.170|
+    |Mirror disk resource (mount point))|/opt/zimbra|
     
     - In Config mode of the Cluster WebUI, add failover group to use Zimbra.  
       You need to add the following resources.
       - Floating ip resource  
       - Mirror disk resource
     
-     - If you want to know how to add resource, please refer to [this site](https://www.nec.com/en/global/prod/expresscluster/en/support/Linux/L42_IG_EN_02.pdf) "EXPRESSCLUSTER X 4.2 for Linux Installation and Configuration Guide".
-     
+     - If you want to know how to add resource, please refer to [this site](https://github.com/EXPRESSCLUSTER/BasicCluster/blob/master/X41/Lin/2nodesMirror_Lin.md#how-to-setup-basic-2-nodes-mirror-cluster-on-linux) 
      
      - After you add failver group and execute apply the configuration file, you start failover group by server1. 
 
