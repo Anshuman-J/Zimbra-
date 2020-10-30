@@ -112,7 +112,7 @@ Zimbra Installation Procedure
      An initial mirror configuration will not be constructed.
 
 <p align="center">
-<img src="mirror_tuning.jpg")
+<img src="mirror_tuning.PNG")
 </p>
 	
 - Execute initial mkfs
