@@ -47,27 +47,112 @@ Zimbra Installation Procedure
 1. Install Zimbra (New Installation) on the both servers.
     - Please do the Installation 
     - For the detailed information of Zimbra, please refer to [this site](https://wiki.zimbra.com/wiki/Zimbra_Releases/8.7.0/Single_Server_Installation)
+    
+    Installation Steps:-
+    ---
+   - Download “Zimbra collaboration suite” package. Open the web browser and go to the following URL. Choose Zimbra version.
+     [this site](http://www.zimbra.com/downloads/)
+    Copy the package to the /tmp directory.
 
-     NOTE - 
+   - Extract the installation files from the .tar file. Right click and click on Extract here.
+   - Open terminal and change the directory to the extracted   folder.
+
+            root@mail-1 ~> cd /tmp/zcs-8.X.XXXXXXXXXXX
+
+   - Run the install.sh file from the zimbra extracted folder
+  
+            ./install.sh
+
+   - Press Y and Enter to accept the terms of the license agreement
+   - As this package is for RHEL so there will be a warning message. Press Y and Enter to continue.
+   - Press Enter on all the packages with their default install options
+   - Press Y and Enter to continue with installation.
+   - Press Y and Enter on the "The system will be modified"     prompt to begin the installation of the zimbra packages.
+   - In the configuration main menu choose option 3-> then choose  option 4 and set the admin password for zimbra mail server.
+   - Press "r" top return to the main menu
+   - Press "a" and Enter to apply the configuration
+   - Press Enter to save the configuration file.
+   - Press Enter to accept the default path for the configuration data or provide a custom path.
+   - Press Y and enter to continue the system modification
+   - Press N and Enter to cancel the notification of Zimbra installation
+   - Press Enter to complete the configuration.
+
+
+ ### NOTE - 
+     
      - If you are doing Zimbra fresh Installation make sure you should be install Zimbra on mirror disk partition.
      
-     - After Zimbra Installation you need to take backup of zimbra files as below steps.
-                	 
-     - Firstly stop the zimbra service on server. 
+       - After Zimbra Installation you need to take backup of zimbra files as below steps.
+  
+       - Firstly stop the zimbra service on server. 
 
             systemctl stop zimbra
-     - Switch to root user and run the following command
+       - Switch to root user and run the following command
 
             ps aux | grep zimbra
 
-     - If any of the Zimbra processes are running then 
-        use kill command to end the processes
+       - If any of the Zimbra processes are running then 
+         use kill command to end the processes
 
-     - Create a new directory in /mnt directory 
-        say zimbra_backup.
+       - Create a new directory in /mnt directory 
+         say zimbra_backup.
 
             rsync -axvzKHS  --progress /opt/zimbra 
             /mnt/zimbra_backup
+	    
+	    
+  ### 3.2 Modifying the hosts file of both the servers. 
+
+    - Open the terminal on the desktop and run the following command: 
+
+            vi /etc/hosts
+
+      - Create an entry for the IP address, Fully Qualified Domain Name of the Primary server. 
+
+      - Save the hosts file and exit. 
+
+      - Verify the DNS server IP and DNS search path in the NIC card settings run the following command: 
+
+            nmtui
+
+
+   ### 3.3 Zimbra Existing installation:
+  
+  - "In this case Zimbra is installed in default disk and have to move data on the mirror partition".
+
+  
+NOTE :-
+ - The backup file must be available before performing this activity.[this site](
+ 
+ - Once the copy has been successfully done, go to the cluster manager from Machine 3 and start the MD resource i.e. Right click on mirror disk and click on Start 
+
+ - Run the bellow command to fix permission for all the files:--
+   /opt/zimbra/libexec/zmfixperms  -e  -v
+
+ - After the copy is successful, start the Zimbra services by running the following command to verify that the copy has been done successfully: 
+
+ - Service zimbra start 
+
+ - after moving the data from default partition to data partition perform the steps mention in section 6.4 on primary server. 
+
+
+### Modify the Hosts file on both server 
+
+ - Stop the Zimbra service
+ - Bind the hostname with FIP in the hosts file.
+ - Save the hosts file & exit. 
+ - Start the Zimbra service & verify the Zimbra.
+
+
+
+   
+  - Install and configure Zimbra mail server on secondary server (ensure Zimbra service is in stop state on primary server) 
+   by following the procedure from Section 6.2{xx} to Section 6.4{xx}. After the zimbra installation is complete, stop the zimbra service & rename the zimbra directory on secondary server & move the failover group from secondary to primary server.
+
+          example :-
+         /opt/zimbra    {after installation on secondary}
+         /opt/zimbraold {New name of the directory on secondary}
+	    
       
 
 2. EXPRESSCLUSTER setup  
@@ -91,8 +176,8 @@ Zimbra Installation Procedure
     
     - In Config mode of the Cluster WebUI, add failover group to use Zimbra.  
       You need to add the following resources.
-      - Floating ip resource  
-      - Mirror disk resource
+          - Floating ip resource  
+          - Mirror disk resource
     
      - If you want to know how to add resource, please refer to [this site](https://github.com/EXPRESSCLUSTER/BasicCluster/blob/master/X41/Lin/2nodesMirror_Lin.md#how-to-setup-basic-2-nodes-mirror-cluster-on-linux) 
      
@@ -132,39 +217,7 @@ Zimbra Installation Procedure
 
 3. Zimbra Setup 
    
-   ### 3.1 Zimbra New Installation 
    
-- Installing Zimbra on Primary Server
-
-   - Start the failover group on the Primary server.
- 
-    - Download “Zimbra collaboration suite” package. Open the web browser and go to the following URL. Choose Zimbra version.
-     [this site](http://www.zimbra.com/downloads/)
-    Copy the package to the /tmp directory.
-
-  - Extract the installation files from the .tar file. Right click and click on Extract here.
-  - Open terminal and change the directory to the extracted   folder.
-
-            root@mail-1 ~> cd /tmp/zcs-8.X.XXXXXXXXXXX
-
-  - Run the install.sh file from the zimbra extracted folder
-  
-            ./install.sh
-
-  - Press Y and Enter to accept the terms of the license agreement
-  - As this package is for RHEL so there will be a warning message. Press Y and Enter to continue.
-  - Press Enter on all the packages with their default install options
-  - Press Y and Enter to continue with installation.
-  - Press Y and Enter on the "The system will be modified"     prompt to begin the installation of the zimbra packages.
-  - In the configuration main menu choose option 3-> then choose  option 4 and set the admin password for zimbra mail server.
-  - Press "r" top return to the main menu
-  - Press "a" and Enter to apply the configuration
-  - Press Enter to save the configuration file.
-  - Press Enter to accept the default path for the configuration data or provide a custom path.
-  - Press Y and enter to continue the system modification
-  - Press N and Enter to cancel the notification of Zimbra installation
-  - Press Enter to complete the configuration.
-
 
    
    ### 3.2 Modifying the hosts file of both the servers. 
