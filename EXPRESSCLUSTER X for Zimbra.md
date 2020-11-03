@@ -101,7 +101,7 @@ Zimbra Installation Procedure
             /mnt/zimbra_backup
 	    
 	    
-  ### 3.2 Modifying the hosts file of both the servers. 
+  ### 2. Modifying the hosts file of both the servers. 
 
     - Open the terminal on the desktop and run the following command: 
 
@@ -116,44 +116,86 @@ Zimbra Installation Procedure
             nmtui
 
 
-   ### 3.3 Zimbra Existing installation:
+   ### 3. Zimbra Existing installation:
   
   - "In this case Zimbra is installed in default disk and have to move data on the mirror partition".
 
-  
-NOTE :-
- - The backup file must be available before performing this activity.[this site](
+ STEPS :-
  
- - Once the copy has been successfully done, go to the cluster manager from Machine 3 and start the MD resource i.e. Right click on mirror disk and click on Start 
+ - Firstly stop the zimbra service on server. 
 
- - Run the bellow command to fix permission for all the files:--
-   /opt/zimbra/libexec/zmfixperms  -e  -v
+            systemctl stop zimbra
+	    
+ - Switch to root user and run the following command.
+
+            ps aux | grep zimbra
+
+  - If any of the Zimbra processes are running then 
+        use kill command to end the processes.
+
+NOTE :-
+ - The Zimbra backup data must be available before performing this activity.
+ 
+ - After backup change the zimbra directory name.
+          example :-
+         /opt/zimbraold {New name of the Zimbra directory}
+ 
+         
+ - Run the following command to copy the existing Zimbra files to mirror disk location: 	 
+	
+	 rsync -axvzKHS --progress /opt/zimbraold /opt/zimbra
+ 
+ - Run the bellow command to fix permission for all the files:
+        
+	 /opt/zimbra/libexec/zmfixperms  -e  -v
 
  - After the copy is successful, start the Zimbra services by running the following command to verify that the copy has been done successfully: 
+         
+	 systemctl start zimbra
+ 
+### Modify the Hosts file on both server for HA 
 
- - Service zimbra start 
-
- - after moving the data from default partition to data partition perform the steps mention in section 6.4 on primary server. 
-
-
-### Modify the Hosts file on both server 
-
- - Stop the Zimbra service
+ - Stop the Zimbra service.
+ 
  - Bind the hostname with FIP in the hosts file.
+  
+   Example :-
+  
+   Server-1
+   vi /etc/hosts 
+   10.0.7.170     demo1.ecxvmcloud.com
+  
+   Server-2
+   vi /etc/hosts 
+   10.0.7.170     demo1.ecxvmcloud.com
+
+ 
  - Save the hosts file & exit. 
+ 
  - Start the Zimbra service & verify the Zimbra.
+ 
+ ### Modify the Hosts file on both server for DR
 
+ - Stop the Zimbra service.
+ 
+ - Bind the machine local IP with DDNS name in the hosts file.
+  
+   Example :-
+  
+   Server-1
+   vi /etc/hosts 
+   10.0.7.166     demo1.ecxvmcloud.com
+  
+   Server-2
+   vi /etc/hosts 
+   10.0.7.167     demo1.ecxvmcloud.com
 
-
+ 
+ - Save the hosts file & exit. 
+ 
+ - Start the Zimbra service & verify the Zimbra.
    
-  - Install and configure Zimbra mail server on secondary server (ensure Zimbra service is in stop state on primary server) 
-   by following the procedure from Section 6.2{xx} to Section 6.4{xx}. After the zimbra installation is complete, stop the zimbra service & rename the zimbra directory on secondary server & move the failover group from secondary to primary server.
-
-          example :-
-         /opt/zimbra    {after installation on secondary}
-         /opt/zimbraold {New name of the directory on secondary}
-	    
-      
+       
 
 2. EXPRESSCLUSTER setup  
     - Let us consider the following 2 node cluster and try to understand it.
@@ -211,88 +253,6 @@ NOTE :-
 
   - When the check box is not selected: 
     An initial mkfs will not be run.
-
-
-     
-
-3. Zimbra Setup 
-   
-   
-
-   
-   ### 3.2 Modifying the hosts file of both the servers. 
-
-    - Open the terminal on the desktop and run the following command: 
-
-            vi /etc/hosts
-
-      - Create an entry for the IP address, Fully Qualified Domain Name of the Primary server. 
-
-      - Save the hosts file and exit. 
-
-      - Verify the DNS server IP and DNS search path in the NIC card settings run the following command: 
-
-            nmtui
-
-
-    ### 3.3 Zimbra Existing Installation:
-  
-  - "In this case when Zimbra is installed in another disk and  want to move data to the mirror partition".
-
-  # Existing Installation 
-
-NOTE :-
-     - The backup file must be available before performing this activity. 
-
-
-
- - Moving the existing Zimbra installation to the data partition (if Zimbra is already installed) 
-
-   - Access the Web Manager of EXPRESSCLUSTER X from client machine. Expand the Failover group and right click on the mirror disk resource and click on Stop. 
-   - Open the terminal on server where Zimbra was already installed. 
-   - Switch to root user and run the following command: 
-
-              ps aux | grep zimbra 
-
-   - Make sure that all the Zimbra processes are stopped. If any of the Zimbra processes are running then use kill command to end the same. 
-
-
-
-- Run the following command to copy the existing Zimbra files to this location: 
-
-      rsync -axvzKHS --progress /mnt/zimbra_backup  /opt/zimbra  
-
- - Once the copy has been successfully done, go to the cluster manager from Machine 3 and start the MD resource i.e. Right click on mirror disk and click on Start 
-
- - Run the bellow command to fix permission for all the files:--
-   /opt/zimbra/libexec/zmfixperms  -e  -v
-
- - After the copy is successful, start the Zimbra services by running the following command to verify that the copy has been done successfully: 
-
- - Service zimbra start 
-
- - after moving the data from default partition to data partition perform the steps mention in section 6.4 on primary server. 
-
-
-### Modify the Hosts file on both server 
-
- - Stop the Zimbra service
- - Bind the hostname with FIP in the hosts file.
- - Save the hosts file & exit. 
- - Start the Zimbra service & verify the Zimbra.
-
-
-
-   
-  - Install and configure Zimbra mail server on secondary server (ensure Zimbra service is in stop state on primary server) 
-   by following the procedure from Section 6.2{xx} to Section 6.4{xx}. After the zimbra installation is complete, stop the zimbra service & rename the zimbra directory on secondary server & move the failover group from secondary to primary server.
-
-          example :-
-         /opt/zimbra    {after installation on secondary}
-         /opt/zimbraold {New name of the directory on secondary}
-
-     
-
 
 
 ### Setup Zimbra Server cluster
