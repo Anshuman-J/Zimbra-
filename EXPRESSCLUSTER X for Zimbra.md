@@ -153,7 +153,7 @@ NOTE :-
          
 	 systemctl start zimbra
  
-### Modify the Hosts file on both server for HA 
+### In case of HA,  Modify the Hosts file on both server for HA 
 
  - Stop the Zimbra service.
  
@@ -174,7 +174,7 @@ NOTE :-
  
  - Start the Zimbra service & verify the Zimbra.
  
- ### Modify the Hosts file on both server for DR
+ ### In case of DR, Modify the Hosts file on both server for DR
 
  - Stop the Zimbra service.
  
