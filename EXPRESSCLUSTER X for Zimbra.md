@@ -153,11 +153,11 @@ NOTE :-
 
  - After the copy is successful, start the Zimbra services by running the following command to verify that the copy has been done successfully: 
          
-	 systemctl start zimbra
+	   systemctl start zimbra
  
 -  After Checking the zimbra service status stop the zimbra service again.
 	 
-	 systemctl stop zimbra
+	   systemctl stop zimbra
 	 
 ## Secondary server 
 
