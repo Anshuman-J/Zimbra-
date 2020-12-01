@@ -117,6 +117,8 @@ Zimbra Installation Procedure
 
 
    ### 3. Zimbra Existing installation:
+   
+   ## On Primary server:-
   
   - "In this case Zimbra is installed in default disk and have to move data on the mirror partition".
 
@@ -143,7 +145,7 @@ NOTE :-
          
  - Run the following command to copy the existing Zimbra files to mirror disk location: 	 
 	
-	 rsync -axvzKHS --progress /opt/zimbraold /opt/zimbra
+	 rsync -axvzKHS --progress /opt/zimbraold/* /opt/zimbra
  
  - Run the bellow command to fix permission for all the files:
         
@@ -152,6 +154,19 @@ NOTE :-
  - After the copy is successful, start the Zimbra services by running the following command to verify that the copy has been done successfully: 
          
 	 systemctl start zimbra
+ 
+-  After Checking the zimbra service status stop the zimbra service again.
+	 
+	 systemctl stop zimbra
+	 
+## Secondary server 
+
+ - Stop Zimbra services.
+ 
+ - After backup change the zimbra directory name.
+          example :-
+         /opt/zimbraolddr {New name of the Zimbra directory}
+ 
  
 ### In case of HA,  Modify the Hosts file on both server for HA 
 
