@@ -122,7 +122,7 @@ Zimbra Installation Procedure
   
   - "In this case Zimbra is installed in default disk and have to move data on the mirror partition".
 
- STEPS :-
+ Steps :-
  
  - Firstly stop the zimbra service on server. 
 
