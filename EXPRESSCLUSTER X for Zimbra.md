@@ -145,11 +145,11 @@ NOTE :-
          
  - Run the following command to copy the existing Zimbra files to mirror disk location: 	 
 	
-	 rsync -axvzKHS --progress /opt/zimbraold/* /opt/zimbra
+	   rsync -axvzKHS --progress /opt/zimbraold/* /opt/zimbra
  
  - Run the bellow command to fix permission for all the files:
         
-	 /opt/zimbra/libexec/zmfixperms  -e  -v
+	   /opt/zimbra/libexec/zmfixperms  -e  -v
 
  - After the copy is successful, start the Zimbra services by running the following command to verify that the copy has been done successfully: 
          
