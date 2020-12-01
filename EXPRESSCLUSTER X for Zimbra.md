@@ -168,7 +168,7 @@ NOTE :-
          /opt/zimbraolddr {New name of the Zimbra directory}
  
  
-### In case of HA,  Modify the Hosts file on both server for HA 
+### In case of HA,  Modify the Hosts file on both servers
 
  - Stop the Zimbra service.
  
@@ -189,7 +189,7 @@ NOTE :-
  
  - Start the Zimbra service & verify the Zimbra.
  
- ### In case of DR, Modify the Hosts file on both server for DR
+ ### In case of DR, Modify the Hosts file on both servers
 
  - Stop the Zimbra service.
  
@@ -213,6 +213,7 @@ NOTE :-
        
 
 2. EXPRESSCLUSTER setup  
+    
     - Let us consider the following 2 node cluster and try to understand it.
 
     ### Cluster Information
